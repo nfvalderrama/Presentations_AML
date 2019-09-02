@@ -19,6 +19,7 @@ import time
 import models
 import datasets
 import math
+import statistics
 
 from lib.NCEAverage import NCEAverage
 from lib.LinearAverage import LinearAverage
@@ -32,7 +33,7 @@ parser.add_argument('--resume', '-r', default='', type=str, help='resume from ch
 parser.add_argument('--test-only', action='store_true', help='test only')
 parser.add_argument('--low-dim', default=128, type=int,
                     metavar='D', help='feature dimension')
-parser.add_argument('--nce-k', default=4096, type=int,
+parser.add_argument('--nce-k', default=0, type=int,
                     metavar='K', help='number of negative samples for NCE')
 parser.add_argument('--nce-t', default=0.1, type=float,
                     metavar='T', help='temperature parameter for softmax')
@@ -59,7 +60,8 @@ if __name__ == '__main__':
         transforms.RandomGrayscale(p=0.2),
         #transforms.RandomHorizontalFlip(),
         transforms.ToTensor(),
-        transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+        #transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+        transforms.Normalize([0.4914], [0.2023]),
     ])
 
     transform_test = transforms.Compose([
@@ -68,13 +70,13 @@ if __name__ == '__main__':
     ])
 
     #### TODO: Modify this part to change the dataset ######
-    trainset = datasets.CIFAR10Instance(root='./data', train=True, download=True, transform=transform_train)
+    trainset = datasets.MNISTInstance(root='./data', train=True, download=True, transform=transform_train)
     trainloader = torch.utils.data.DataLoader(trainset, batch_size=args.batch_size, shuffle=True, num_workers=1)
 
-    testset = datasets.CIFAR10Instance(root='./data', train=False, download=True, transform=transform_test)
+    testset = datasets.MNISTInstance(root='./data', train=False, download=True, transform=transform_test)
     testloader = torch.utils.data.DataLoader(testset, batch_size=args.batch_size_test, shuffle=False, num_workers=1)
 
-    classes = ('plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
+    classes = ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
     ndata = trainset.__len__()
 
     print('==> Building model..')
