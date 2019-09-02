@@ -11,7 +11,7 @@ In order to run the main code, use the following line:
 Here we set the parameter nce-k to 0, wich controls the number of negative samples. If nce-k sets to 0, the code also supports full softmax learning.
 Default values have been modified for simplicity, now you can run the main code without the parser arguments.
 
-**UPDATE (Sept-2)** Now we provide modified main.py and resnet_mnist.py scrpts for use with MNIST database.
+**UPDATE (Sept-2)** Now we provide modified main.py and resnet_mnist.py scripts for use with MNIST database.
 
 Once you have your new architecture and dataset, you will have to adapt the model to an autoencoder. The architecture you have right now, could be used as the encoder and you will have to built the decoder. Implement the reconstruction loss and compare your results with the architecture before being converted to an autoencoder, using MNIST. 
 
